@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ro">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#060b14">
+
+<title>J.A.R.V.I.S.</title>
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+
+margin:0;background:#060b14;color:#e6f4ff;
+
+font-family:Arial,sans-serif;min-height:100vh;
+
+}
+
+.container{max-width:900px;margin:auto;padding:22px}
+
+header{text-align:center;padding:30px 10px}
+
+.logo{font-size:38px;letter-spacing:8px;color:#64d8ff;
+
+text-shadow:0 0 25px #00aaff}
+
+.subtitle{color:#7798b4;letter-spacing:4px;font-size:12px}
+
+.panel{
+
+background:linear-gradient(145deg,#101b2a,#08111c);
+
+border:1px solid #153b55;border-radius:15px;
+
+padding:20px;margin:15px 0;
+
+box-shadow:0 0 20px #00aaff0b;
+
+}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.label{font-size:11px;color:#7296b4;letter-spacing:2px}
+
+.value{font-size:20px;margin-top:10px;color:#66d9ff}
+
+.clock{text-align:center;font-size:36px;letter-spacing:3px}
+
+.status{text-align:center;color:#43e0a0;font-size:13px}
+
+.chat{min-height:180px;max-height:320px;overflow-y:auto}
+
+.message{padding:10px;margin:8px 0;border-radius:10px;
+
+background:#122338;line-height:1.5}
+
+.user{border-left:3px solid #56cfff}
+
+.jarvis{border-left:3px solid #45e0a0}
+
+input{
+
+width:100%;padding:15px;border-radius:10px;
+
+background:#07121e;color:white;border:1px solid #24516c;
+
+outline:none;font-size:16px
+
+}
+
+button{
+
+padding:14px;border:1px solid #45cfff;
+
+background:#10283a;color:#67dcff;border-radius:10px;
+
+font-size:15px;cursor:pointer
+
+}
+
+button:active{opacity:.7}
+
+.controls{display:flex;gap:10px;margin-top:12px}
+
+.controls button{flex:1}
+
+.footer{text-align:center;color:#45647d;font-size:11px;padding:25px}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<div class="logo">J.A.R.V.I.S.</div>
+
+<div class="subtitle">PERSONAL AI COMMAND CENTER</div>
+
+</header>
+
+<div class="panel">
+
+<div class="clock" id="clock">00:00:00</div>
+
+<div class="status">● SYSTEM ONLINE</div>
+
+</div>
+
+<div class="grid">
+
+<div class="panel">
+
+<div class="label">CORE SYSTEM</div>
+
+<div class="value">INITIALIZED</div>
+
+</div>
+
+<div class="panel">
+
+<div class="label">AI ASSISTANT</div>
+
+<div class="value">READY</div>
+
+</div>
+
+<div class="panel">
+
+<div class="label">LANGUAGE</div>
+
+<div class="value">RO / EN</div>
+
+</div>
+
+<div class="panel">
+
+<div class="label">AUTONOMY</div>
+
+<div class="value">CONTROLLED</div>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<div class="label">JARVIS INTERFACE</div>
+
+<div class="chat" id="chat">
+
+<div class="message jarvis">
+
+JARVIS: Interfața este inițializată.
+
+Sunt pregătit. Ce dorești să facem?
+
+</div>
+
+</div>
+
+<input id="input" placeholder="Scrie o comandă către JARVIS..." />
+
+<div class="controls">
+
+<button onclick="send()">SEND</button>
+
+<button onclick="voice()">🎙 VOICE</button>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<div class="label">MISSION MODULES</div>
+
+<div class="grid">
+
+<div class="value">PERSONAL AI</div>
+
+<div class="value">KYRO MANAGER</div>
+
+<div class="value">FINANCE AI</div>
+
+<div class="value">TRADING AI</div>
+
+<div class="value">BUSINESS AI</div>
+
+<div class="value">CONTENT AI</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+J.A.R.V.I.S. // COMMAND CENTER // V0.1
+
+</div>
+
+</div>
+
+<script>
+
+function updateClock(){
+
+document.getElementById("clock").textContent=
+
+new Date().toLocaleTimeString("ro-RO");
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+function send(){
+
+const input=document.getElementById("input");
+
+const chat=document.getElementById("chat");
+
+const text=input.value.trim();
+
+if(!text)return;
+
+chat.innerHTML+=`<div class="message user"></div>`;
+
+chat.lastElementChild.textContent="YOU: "+text;
+
+chat.innerHTML+=`<div class="message jarvis"></div>`;
+
+chat.lastElementChild.textContent=
+
+"JARVIS: Am primit comanda. Interfața este momentan în versiunea de prototip. Următoarea etapă va conecta inteligența artificială.";
+
+input.value="";
+
+chat.scrollTop=chat.scrollHeight;
+
+}
+
+document.getElementById("input").addEventListener("keydown",e=>{
+
+if(e.key==="Enter")send();
+
+});
+
+function voice(){
+
+if(!("webkitSpeechRecognition" in window) &&
+
+!("SpeechRecognition" in window)){
+
+alert("Recunoașterea vocală nu este suportată în acest browser.");
+
+return;
+
+}
+
+const SpeechRecognition=window.SpeechRecognition||
+
+window.webkitSpeechRecognition;
+
+const recognition=new SpeechRecognition();
+
+recognition.lang="ro-RO";
+
+recognition.onresult=function(event){
+
+document.getElementById("input").value=
+
+event.results[0][0].transcript;
+
+send();
+
+};
+
+recognition.start();
+
+}
+
+</script>
+
+</body>
+
+</html>
